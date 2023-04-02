@@ -2,16 +2,16 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: my-cluster
-  region: us-west-2
+  name: build-agent-testing-devops-sandbox
+  region: us-east-1
   version: "1.20"
 
 managedNodeGroups:
   - name: ubuntu-nodes
     amiFamily: Ubuntu2004
     instanceType: t3.xlarge
-    desiredCapacity: 3
-    minSize: 3
+    desiredCapacity: 1
+    minSize: 1
     maxSize: 5
     volumeSize: 200
     ssh:
