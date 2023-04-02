@@ -24,3 +24,4 @@
 #The Definition of the 'awsEksKey', the .pem file required to access this cluster. It will instead be located in passwordstate
 awsEksKey.json
 awsEksKey.pem
+.pem
