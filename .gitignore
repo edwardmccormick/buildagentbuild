@@ -1,0 +1,26 @@
+# content below from: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+##
+## Visual Studio Code
+##
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+#Node Extension Packaging
+*.vsix
+*.gitattributes
+
+#The Definition of the 'awsEksKey', the .pem file required to access this cluster. It will instead be located in passwordstate
+awsEksKey.json
+awsEksKey.pem
