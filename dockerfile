@@ -10,7 +10,7 @@ RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo | tee /etc/yum.r
 # RUN curl https://download.docker.com/linux/centos/docker-ce.repo | tee  /etc/yum.repos.d/docker.repo
 
 # install the tools from AWS-Cardprocess, AWSBLD, and Copernicus-AWS
-RUN yum install --assumeyes powershell
+# RUN yum install --assumeyes powershell
 RUN yum groupinstall --assumeyes  Development 
 RUN yum install --assumeyes dotnet-sdk-3.1
 # RUN yum install --assumeyes docker
