@@ -1,6 +1,6 @@
 # Okay, this is exciting, let's see if we can build a container that mimics the functionality of our current Linux build agents.
 # Build a Docker image based on the Amazon Linux 2 Docker image.
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y
 
@@ -16,6 +16,13 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
     software-properties-common
 
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+RUN wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+RUN dpkg -i packages-microsoft-prod.deb
+RUN rm packages-microsoft-prod.deb
+RUN apt-get install -y dotnet-sdk-7.0
+RUN apt-get install -y dotnet-sdk-6.0
+RUN apt-get install -y dotnet-sdk-3.1
 
 # Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
 ENV TARGETARCH=linux-x64
