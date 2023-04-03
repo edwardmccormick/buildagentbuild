@@ -2,44 +2,41 @@
 # Build a Docker image based on the Amazon Linux 2 Docker image.
 FROM amazonlinux:2
 
+
+# Man, this thing is apparently way important
+# RUN yum install -y yum-utils
+ # Register the Microsoft RedHat repository
+RUN curl https://packages.microsoft.com/config/rhel/7/prod.repo | tee /etc/yum.repos.d/microsoft.repo
+# RUN curl https://download.docker.com/linux/centos/docker-ce.repo | tee  /etc/yum.repos.d/docker.repo
+
 # install the tools from AWS-Cardprocess, AWSBLD, and Copernicus-AWS
- RUN sudo yum install -y powershell 
- RUN sudo yum groupinstall Development 
- RUN sudo yum install dotnet-sdk-3.1.x 
- RUN sudo yum install docker 
- RUN sudo yum install jq -y
- RUN sudo yum install postgresql
- RUN sudo yum install dotnet-sdk-6.0 
- RUN sudo yum install dotnet-sdk-7.0
- 
-# Download and install the Azure DevOps Agent Software
-~/$ mkdir myagent && cd myagent
-~/myagent$ tar zxvf ~/Downloads/vsts-agent-linux-x64-3.218.0.tar.gz
+RUN yum install --assumeyes powershell
+RUN yum groupinstall --assumeyes  Development 
+RUN yum install --assumeyes dotnet-sdk-3.1
+# RUN yum install --assumeyes docker
+RUN yum install jq --assumeyes 
+RUN yum install postgresql --assumeyes
+RUN yum install dotnet-sdk-6.0 --assumeyes 
+RUN yum install dotnet-sdk-7.0 --assumeyes
+RUN yum install -y openssl-libs krb5-libs zlib libicu
+RUN yum install -y wget ca-certificates
+RUN yum -y install libicu
+# RUN curl https://packages.efficios.com/repo.files/EfficiOS-RHEL7-x86-64.repo | tee /etc/yum.repos.d/efficios.repo
+# RUN yum install rpmkeys
+
+RUN yum updateinfo -y
+RUN yum makecache
+# RUN yum install -y lttng-ust
 
 
+# Download Azure DevOps Agent Software
 
-# # Create user and enable root access
-# RUN useradd --uid 1000 --shell /bin/bash -m --home-dir /home/ubuntu ubuntu && \
-#     sed -i 's/%wheel\s.*/%wheel ALL=NOPASSWD:ALL/' /etc/sudoers && \
-#     usermod -a -G wheel ubuntu
+ENV TARGETARCH=rhel.6-x64
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=true
 
-# Add the AWS Cloud9 SSH public key to the Docker container.
-# This assumes a file named authorized_keys containing the
-# AWS Cloud9 SSH public key already exists in the same
-# directory as the Dockerfile.
-# RUN mkdir -p /home/ubuntu/.ssh
-# ADD ./authorized_keys /home/ubuntu/.ssh/authorized_keys
-# RUN chown -R ubuntu /home/ubuntu/.ssh /home/ubuntu/.ssh/authorized_keys && \
-# chmod 700 /home/ubuntu/.ssh && \
-# chmod 600 /home/ubuntu/.ssh/authorized_keys
+WORKDIR /azp
 
-# # Update the password to a random one for the user ubuntu.
-# RUN echo "ubuntu:$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)" | chpasswd
+COPY ./start.sh .
+RUN chmod +x start.sh
 
-# # pre-install Cloud9 dependencies
-# USER ubuntu
-# RUN curl https://d2j6vhu5uywtq3.cloudfront.net/static/c9-install.sh | bash
-
-# USER root
-# # Start SSH in the Docker container.
-# CMD ssh-keygen -A && /usr/sbin/sshd -D
+ENTRYPOINT ["./start.sh"]

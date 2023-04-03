@@ -28,6 +28,16 @@ This generated an SSH key, which before I save it I will add to the .gitignore
 
 Documentation located [here](https://github.com/nestybox/sysbox/blob/master/docs/user-guide/install-k8s-distros.md#aws-elastic-kubernetes-service-eks). I'll iterate on it in order to understand what's happening.
 
+Best practice is probably to run the docker build command with a tag argument, ie from the directory where this is cloned: docker build <pathway>/BuildAgentBuild/ -t dockeragentbuild:awslinux2
+
+The image builds correctly (?) - this is the command to run the agent: docker run -e AZP_URL=https://dev.azure.com/SWBC-FigWebDev `
+  -e AZP_TOKEN=<YOUR_PAT_TOKEN> `
+  -e AZP_POOL=RunOnce `
+  -e ACP_AGENT_NAME=mydockeragent
+  dockeragentbuild:awslinux2
+
+  docker run -e AZP_URL=<Azure DevOps instance> -e AZP_TOKEN=<PAT token> -e AZP_AGENT_NAME=mydockeragent dockeragent:latest --once
+
 If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
 - [ASP.NET Core](https://github.com/aspnet/Home)
 - [Visual Studio Code](https://github.com/Microsoft/vscode)
