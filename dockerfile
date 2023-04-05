@@ -18,6 +18,7 @@ RUN yum install postgresql -y
 RUN yum install dotnet-sdk-6.0 -y
 RUN yum install dotnet-sdk-7.0 -y
 RUN dotnet tool install --global Amazon.Lambda.Tools
+ENV PATH $PATH:/root/.dotnet/tools
 RUN yum install -y openssl-libs krb5-libs zlib libicu
 RUN yum install -y wget ca-certificates
 RUN yum -y install libicu
