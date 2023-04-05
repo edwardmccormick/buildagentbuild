@@ -18,7 +18,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommend
 RUN curl -sL https://aka.ms/InstallAzureCLIDeb | bash
 
 RUN apt-get install -y wget
-
+RUN apt-get -y install zip
 
 
 # Get Ubuntu version
@@ -39,6 +39,9 @@ RUN apt update
 RUN apt-get install -y dotnet-sdk-6.0
 # RUN apt-get install -y dotnet-sdk-3.1
 RUN apt-get install -y dotnet-sdk-7.0
+
+ENV PATH $PATH:/root/.dotnet/tools
+RUN dotnet tool install -g Amazon.Lambda.Tools
 
 # Update the list of packages
 RUN apt-get update
@@ -71,8 +74,15 @@ PATH=/usr/lib/go-1.18/bin:$PATH make runc all SECURITYTAGS="apparmor seccomp" \
 make install install.runc \
 buildah --help
 
-# #Test that buildah works
-# RUN buildah -help
+# Install NVM
+RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+
+RUN curl https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
+
+# RUN nvm install node 
+# RUN nvm install 16.14.0  
 
 # Can be 'linux-x64', 'linux-arm64', 'linux-arm', 'rhel.6-x64'.
 ENV TARGETARCH=linux-x64
