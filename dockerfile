@@ -59,20 +59,33 @@ RUN apt-get install -y wget apt-transport-https software-properties-common
 RUN apt-get install -y powershell
 
 #Install Buildah(?)
-# RUN apt-get -y install buildah
+RUN apt-get -y install buildah
 
 RUN apt-get -y -qq update
-RUN apt-get -y install bats btrfs-progs git libapparmor-dev libdevmapper-dev libglib2.0-dev libgpgme11-dev libseccomp-dev libselinux1-dev skopeo go-md2man make
+RUN apt-get -y install bats \
+    btrfs-progs\
+    git \
+    libapparmor-dev\
+    libdevmapper-dev\
+    libglib2.0-dev\
+    libgpgme11-dev\
+    libseccomp-dev\
+    libselinux1-dev\
+    skopeo\
+    go-md2man\
+    make\
+    runc
 RUN apt-get -y install golang-1.18
 
-RUN mkdir ~/buildah \
-cd ~/buildah \
-export GOPATH=`pwd` \
-git clone https://github.com/containers/buildah ./src/github.com/containers/buildah \
-cd ./src/github.com/containers/buildah\
-PATH=/usr/lib/go-1.18/bin:$PATH make runc all SECURITYTAGS="apparmor seccomp" \
-make install install.runc \
-buildah --help
+RUN cd ~\
+    mkdir buildah\
+    cd /buildah\
+    export GOPATH=`pwd`\
+    git clone https://github.com/containers/buildah ./src/github.com/containers/buildah\
+    cd ./src/github.com/containers/buildah\
+    PATH=/usr/lib/go-1.18/bin:$PATH make runc all SECURITYTAGS="apparmor seccomp"\
+    make install install.runc
+# RUN buildah --help
 
 # Install NVM
 RUN curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
