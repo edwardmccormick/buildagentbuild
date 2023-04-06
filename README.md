@@ -38,6 +38,9 @@ The image builds correctly (?) - this is the command to run the agent: docker ru
 
   docker run -e AZP_URL=<Azure DevOps instance> -e AZP_TOKEN=<PAT token> -e AZP_AGENT_NAME=mydockeragent dockeragent:latest --once
 
+docker run --privileged -v /var/run/docker.sock:/var/run/docker.sock  -t -i -e AZP_URL=https://dev.azure.com/SWBC-FigWebDev -e AZP_TOKEN=<token> -e AZP_POOL=RunOnce -e ACP_AGENT_NAME=mydockeragent dockeragentbuild:amazonlinux2023
+
+
 If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
 - [ASP.NET Core](https://github.com/aspnet/Home)
 - [Visual Studio Code](https://github.com/Microsoft/vscode)
